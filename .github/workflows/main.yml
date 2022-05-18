@@ -1,0 +1,29 @@
+name: Code Style Lint
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
+jobs:
+  phpcs:
+    name: PHPCS
+    runs-on: ubuntu-latest
+    steps:
+      # https://github.com/actions/checkout (official)
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Run PHPCS inspection
+        uses: rtCamp/action-phpcs-code-review@v9
+        env:
+          GH_BOT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SKIP_FOLDERS: ".github"
+          PHPCS_STANDARD_FILE_NAME: "./themes/action-test/phpcs.xml.dist"
+        with:
+          args: "WordPress,WordPress-Extra,WordPress-Docs,PHPCompatibilityWP,Squiz"
