@@ -20,7 +20,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Run PHPCS inspection
-        uses: rtCamp/action-phpcs-code-review@v9
+        uses: rtCamp/action-phpcs-code-review@v2.1.0
         env:
           GH_BOT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SKIP_FOLDERS: ".github"
