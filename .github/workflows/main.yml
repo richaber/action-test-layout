@@ -16,14 +16,13 @@ jobs:
       # https://github.com/actions/checkout (official)
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Run PHPCS inspection
-        uses: rtCamp/action-phpcs-code-review@v2.1.0
-        env:
-          GH_BOT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SKIP_FOLDERS: ".github"
-          PHPCS_STANDARD_FILE_NAME: "./themes/action-test/phpcs.xml.dist"
+      - name: Install Composer dependencies
+        run: composer install --dev --prefer-dist --no-progress --no-suggest --ignore-platform-reqs
+
+      # https://github.com/chekalsky/phpcs-action (community)
+      - name: PHPCS check
+        uses: chekalsky/phpcs-action@v1.2.0
         with:
-          args: "WordPress,WordPress-Extra,WordPress-Docs,PHPCompatibilityWP,Squiz"
+          enable_warnings: true
+          phpcs_bin_path: './vendor/bin/phpcs'
