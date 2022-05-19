@@ -22,7 +22,7 @@
     <arg value="ps"/>
 
     <!-- Strip the filepaths down to the relevant bit. -->
-    <arg name="basepath" value="./"/>
+    <!-- <arg name="basepath" value="./"/> -->
 
     <!-- Check up to 8 files simultaneously. -->
     <arg name="parallel" value="8"/>
@@ -31,7 +31,7 @@
     <arg name="extensions" value="php"/>
 
     <!-- Check all files in this directory and the directories below it. -->
-    <file>.</file>
+    <!-- <file>.</file> -->
 
     <!-- Specify UTF-8 encoding. -->
     <arg name="encoding" value="UTF-8"/>
