@@ -43,5 +43,5 @@ jobs:
         continue-on-error: true
         run: |
           echo "::add-matcher::.github/matchers/phpcs-problem-matcher.json"
-          composer ./vendor/bin/phpcs --report=checkstyle -q --standard=phpcs.xml.dist .
+          ./vendor/bin/phpcs --report=checkstyle -q --standard=phpcs.xml.dist .
           echo "::remove-matcher owner=phpcs"
