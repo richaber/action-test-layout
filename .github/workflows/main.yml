@@ -33,4 +33,4 @@ jobs:
 
       - name: PHPCS check
         working-directory: ./wp-content/themes/action-test/
-        run: ./vendor/bin/phpcs -q --report=checkstyle | cs2pr
+        run: ./vendor/bin/phpcs --report=checkstyle -q  | ./vendor/bin/cs2pr
