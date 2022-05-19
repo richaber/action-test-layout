@@ -40,7 +40,6 @@ jobs:
 
       - name: PHPCS check
         working-directory: ./wp-content/themes/action-test/
-        continue-on-error: true
         run: |
           echo "::add-matcher::.github/matchers/phpcs-problem-matcher.json"
           ./vendor/bin/phpcs --report=checkstyle -q --standard=phpcs.xml.dist .
