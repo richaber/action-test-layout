@@ -13,17 +13,24 @@ jobs:
     name: PHPCS
     runs-on: ubuntu-latest
     steps:
+
       # https://github.com/actions/checkout (official)
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          tools: composer:v2
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Composer dependencies
         working-directory: ./wp-content/themes/action-test/
         run: composer install --dev --prefer-dist --no-progress --no-suggest --ignore-platform-reqs
 
-      # https://github.com/chekalsky/phpcs-action (community)
       - name: PHPCS check
-        uses: chekalsky/phpcs-action@v1.2.0
-        with:
-          enable_warnings: true
-          phpcs_bin_path: './wp-content/themes/action-test/vendor/bin/phpcs'
+        working-directory: ./wp-content/themes/action-test/
+        run: ./vendor/bin/phpcs
