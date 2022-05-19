@@ -1,12 +1,14 @@
 name: Code Style Lint
 
-on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
-      - ready_for_review
+on: pull_request
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   phpcs:
@@ -22,10 +24,15 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: 8.0
           tools: composer:v2, cs2pr
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tool versions
+        run: |
+          php --version
+          composer --version
 
       - name: Install Composer dependencies
         working-directory: ./wp-content/themes/action-test/
@@ -34,4 +41,7 @@ jobs:
       - name: PHPCS check
         working-directory: ./wp-content/themes/action-test/
         continue-on-error: true
-        run: ./vendor/bin/phpcs --report=checkstyle -q  | ./vendor/bin/cs2pr
+        run: |
+          echo "::add-matcher::.github/matchers/phpcs-problem-matcher.json"
+          composer ./vendor/bin/phpcs --report=checkstyle -q --standard=phpcs.xml.dist .
+          echo "::remove-matcher owner=phpcs"
