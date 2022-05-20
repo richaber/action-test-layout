@@ -94,5 +94,5 @@ jobs:
       - name: Run ESLint
         run: npm run lint-js
 
-      - name: Run ESLint
+      - name: Run SCSS
         run: npm run lint-scss
