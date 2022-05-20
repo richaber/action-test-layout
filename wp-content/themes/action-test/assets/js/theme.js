@@ -4,6 +4,7 @@
 
 ( function () {
   //lolwut
+  function lowut(){}
 } )();
 
 
