@@ -1,26 +1,52 @@
 name: Code Style Lint
 
+# To automatically trigger a workflow, use "on" to define
+# which events can cause the workflow to run.
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 on: pull_request
 
+# You can use defaults.run to provide default shell and working-directory options
+# for all run steps in a workflow.
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#defaultsrun
 defaults:
   run:
     shell: bash
+    working-directory: ./wp-content/themes/action-test/
 
+# Use concurrency to ensure that only a single job or workflow
+# using the same concurrency group will run at a time.
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# A workflow run is made up of one or more jobs, which run in parallel by default.
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobs
 jobs:
+
+  # Use jobs.<job_id> to give your job a unique identifier.
+  # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_id
   phpcs:
+
+    # Use jobs.<job_id>.name to a name for the job, which is displayed on GitHub.
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idname
     name: PHPCS
+
+    # Use jobs.<job_id>.runs-on to define the type of machine to run the job on.
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idruns-on
     runs-on: ubuntu-latest
+
+    # A job contains a sequence of tasks called "steps".
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsteps
     steps:
 
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it.
       # https://github.com/actions/checkout (official)
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v3
 
+      # Setup PHP with required extensions and tools in GitHub Actions.
+      # https://github.com/shivammathur/setup-php (community)
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -29,18 +55,44 @@ jobs:
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # Outputs the PHP version and Composer version while the action is running.
       - name: Tool versions
         run: |
           php --version
           composer --version
 
+      # Composer install
       - name: Install Composer dependencies
-        working-directory: ./wp-content/themes/action-test/
-        run: composer install --dev --prefer-dist --no-progress --no-suggest --ignore-platform-reqs
+        run: composer install --prefer-dist --no-progress --ignore-platform-reqs
 
+      # Problem Matchers documentation
+      # https://github.com/actions/toolkit/blob/main/docs/commands.md#problem-matchers
       - name: PHPCS check
-        working-directory: ./wp-content/themes/action-test/
         run: |
           echo "::add-matcher::.github/matchers/phpcs-problem-matcher.json"
           ./vendor/bin/phpcs --report=checkstyle -q --standard=phpcs.xml.dist .
           echo "::remove-matcher owner=phpcs"
+
+  eslint:
+    runs-on: ubuntu-latest
+    name: Eslint
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: './wp-content/themes/action-test/.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: Install
+        run: npm install --production=false
+
+      - name: Run ESLint
+        run: npm run lint-js
+
+      - name: Run SCSS
+        run: npm run lint-scss
