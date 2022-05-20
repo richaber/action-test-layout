@@ -31,12 +31,15 @@ jobs:
     outputs:
       # Whether any PHP files have changed.
       php: ${{ steps.filter.outputs.php }}
+      php_files: ${{ steps.filter.outputs.php_files }}
 
       # Whether any JavaScript files have changed.
       js: ${{ steps.filter.outputs.js }}
+      js_files: ${{ steps.filter.outputs.js_files }}
 
       # Whether any SCSS files have changed.
       scss: ${{ steps.filter.outputs.scss }}
+      scss_files: ${{ steps.filter.outputs.scss_files }}
 
     steps:
 
