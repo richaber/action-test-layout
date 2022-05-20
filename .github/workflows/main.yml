@@ -52,7 +52,7 @@ jobs:
         uses: dorny/paths-filter@v2
         id: filter
         with:
-          list-files: json
+          list-files: shell
           filters: |
             php:
               - added|modified:
@@ -114,7 +114,7 @@ jobs:
           FILES: ${{ needs.changed_files.outputs.php_files }}
         run: |
           echo "::add-matcher::.github/matchers/phpcs-problem-matcher.json"
-          ./vendor/bin/phpcs --report=checkstyle -q --standard=phpcs.xml.dist $(jq -rn --argjson files "$FILES" '$files[]')
+          ./vendor/bin/phpcs --report=checkstyle -q --standard=phpcs.xml.dist $FILES
           echo "::remove-matcher owner=phpcs"
 
   eslint:
@@ -144,7 +144,7 @@ jobs:
         env:
           SHA: ${{ github.event.pull_request.base.sha }}
           FILES: ${{ needs.changed_files.outputs.js_files }}
-        run: npx eslint $(jq -rn --argjson files "$FILES" '$files[]')
+        run: npx eslint $FILES
 
   stylelint:
 
@@ -173,4 +173,4 @@ jobs:
         env:
           SHA: ${{ github.event.pull_request.base.sha }}
           FILES: ${{ needs.changed_files.outputs.scss_files }}
-        run: npx stylelint $(jq -rn --argjson files "$FILES" '$files[]')
+        run: npx stylelint $FILES
