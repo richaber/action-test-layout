@@ -93,6 +93,3 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint-js
-
-      - name: Run SCSS
-        run: npm run lint-scss
