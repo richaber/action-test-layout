@@ -145,3 +145,6 @@ function action_test_post_thumbnail() {
 
 	<?php
 }
+
+
+function badprefix_functwo(){}
