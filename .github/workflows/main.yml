@@ -36,6 +36,9 @@ jobs:
       # Whether any JavaScript files have changed.
       js: ${{ steps.filter.outputs.js }}
 
+      # Whether any SCSS files have changed.
+      scss: ${{ steps.filter.outputs.scss }}
+
     steps:
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it.
