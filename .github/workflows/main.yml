@@ -114,7 +114,7 @@ jobs:
       - name: PHPCS check
         run: |
           echo "::add-matcher::.github/matchers/phpcs-problem-matcher.json"
-          ./vendor/bin/phpcs --report=checkstyle -q --standard=phpcs.xml.dist ${{ needs.changed_files.outputs.php_files }}
+          ./vendor/bin/phpcs --report=checkstyle -q --standard=phpcs.xml.dist .
           echo "::remove-matcher owner=phpcs"
 
   eslint:
@@ -141,7 +141,7 @@ jobs:
         run: npm install --production=false
 
       - name: Run ESLint
-        run: npx eslint ${{ needs.changed_files.outputs.js_files }}
+        run: npm run eslint
 
   stylelint:
 
@@ -167,4 +167,4 @@ jobs:
         run: npm install --production=false
 
       - name: Run SCSS
-        run: npx stylelint ${{ needs.changed_files.outputs.scss_files }}
+        run: npm run stylelint
