@@ -92,7 +92,7 @@ jobs:
         run: npm install --production=false
 
       - name: Run ESLint
-        run: npm run lint-js
+        run: npm run lint:js
 
       - name: Run SCSS
-        run: npm run lint-scss
+        run: npm run lint:scss
