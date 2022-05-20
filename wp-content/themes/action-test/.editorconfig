@@ -1,0 +1,26 @@
+# This file is for unifying the coding style for different editors and IDEs.
+# editorconfig.org
+
+# Top-most EditorConfig file.
+# ---------------------------
+root = true
+
+# General settings to apply to all files.
+# ---------------------------------------
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_size = 2
+
+# Files that need an indent size of 4
+# -----------------------------------
+[*.php]
+indent_size = 4
+
+# Files that need whitespace at the end of lines
+# ----------------------------------------------
+[*.md]
+trim_trailing_whitespace = false

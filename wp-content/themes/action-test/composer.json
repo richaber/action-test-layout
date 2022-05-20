@@ -1,0 +1,26 @@
+{
+  "name": "richaber/action-test",
+  "type": "wordpress-theme",
+  "prefer-stable": true,
+  "minimum-stability": "dev",
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "require": {
+    "automattic/vipwpcs": "^2.3"
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "*",
+    "phpcompatibility/phpcompatibility-wp": "*",
+    "squizlabs/php_codesniffer": "^3.6",
+    "wp-coding-standards/wpcs": "*"
+  },
+  "scripts": {
+    "phpcbf": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf .",
+    "phpcs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs .",
+    "lint-errors": "@lint -n"
+  }
+}

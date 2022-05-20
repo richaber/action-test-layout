@@ -1,0 +1,24 @@
+# Ignored theme files
+*.sass-cache*
+*.log
+
+# Vendor (e.g. Composer)
+bin
+vendor
+
+# Ignore build directory and lint reports
+build
+reports/
+
+# Package Manager
+node_modules
+.yarn/
+
+# Mac
+*.DS_Store
+thumbs.db
+.idea
+.env
+
+# Github Actions + WP-Engine deploy
+.github/workflows/wpengine.yml
