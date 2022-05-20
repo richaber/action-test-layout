@@ -36,6 +36,9 @@ jobs:
       # Whether any JavaScript files have changed.
       js: ${{ steps.filter.outputs.js }}
 
+      # Whether any SCSS files have changed.
+      js: ${{ steps.filter.outputs.scss }}
+
     steps:
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it.
@@ -109,7 +112,7 @@ jobs:
       - name: PHPCS check
         env:
           SHA: ${{ github.event.pull_request.base.sha }}
-          FILES: ${{ needs.changed_files.outputs.php }}
+          FILES: ${{ needs.changed_files.outputs.php_files }}
         run: |
           echo "::add-matcher::.github/matchers/phpcs-problem-matcher.json"
           ./vendor/bin/phpcs --report=checkstyle -q --standard=phpcs.xml.dist $(jq -rn --argjson files "$FILES" '$files[]')
@@ -141,8 +144,8 @@ jobs:
       - name: Run ESLint
         env:
           SHA: ${{ github.event.pull_request.base.sha }}
-          FILES: ${{ needs.changed_files.outputs.js }}
-        run: npm run lint:js $(jq -rn --argjson files "$FILES" '$files[]')
+          FILES: ${{ needs.changed_files.outputs.js_files }}
+        run: npx eslint $(jq -rn --argjson files "$FILES" '$files[]')
 
   stylelint:
 
@@ -170,5 +173,5 @@ jobs:
       - name: Run SCSS
         env:
           SHA: ${{ github.event.pull_request.base.sha }}
-          FILES: ${{ needs.changed_files.outputs.scss }}
-        run: npm run lint:scss $(jq -rn --argjson files "$FILES" '$files[]')
+          FILES: ${{ needs.changed_files.outputs.scss_files }}
+        run: npx stylelint $(jq -rn --argjson files "$FILES" '$files[]')
