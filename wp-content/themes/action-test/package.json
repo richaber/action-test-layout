@@ -32,7 +32,7 @@
   },
   "scripts": {
     "eslint": "npx eslint 'assets/js/**/*.js'",
-    "stylelint": "npx stylelint 'assets/scss/**/*.scss'",
+    "stylelint": "npx stylelint --formatter=compact 'assets/scss/**/*.scss'",
     "watch": "npx gulp watch",
     "dev": "npx gulp dev",
     "build": "npx gulp build",
