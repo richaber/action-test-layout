@@ -126,7 +126,7 @@ jobs:
           echo "GITHUB_PATH: ${GITHUB_PATH}"
           echo "GITHUB_SHA: ${GITHUB_SHA}"
           echo "GITHUB_REF: ${GITHUB_REF}"
-          echo "::add-matcher::.github/matchers/phpcs-problem-matcher.json"
+          echo "::add-matcher::${GITHUB_WORKSPACE}/.github/matchers/phpcs-problem-matcher.json"
           ./vendor/bin/phpcs --report=checkstyle -q --standard=phpcs.xml.dist .
           echo "::remove-matcher owner=phpcs"
 
@@ -209,6 +209,6 @@ jobs:
           echo "GITHUB_PATH: ${GITHUB_PATH}"
           echo "GITHUB_SHA: ${GITHUB_SHA}"
           echo "GITHUB_REF: ${GITHUB_REF}"
-          echo "::add-matcher::.github/matchers/stylelint-problem-matcher.json"
+          echo "::add-matcher::${GITHUB_WORKSPACE}/.github/matchers/stylelint-problem-matcher.json"
           npm run stylelint
           echo "::remove-matcher owner=stylelint"
